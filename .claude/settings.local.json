@@ -6,7 +6,9 @@
       "PowerShell(cd \"C:\\\\Users\\\\Admin\\\\Desktop\\\\portfolio\"; $env:FORCE_COLOR=0; \"y`n\" | npx --yes create-vite@latest . --template react 2>&1; echo \"done\")",
       "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\Admin\\\\Desktop\\\\portfolio\" -Force)",
       "Bash(Select-Object Name, PSIsContainer)",
-      "PowerShell(Get-ChildItem -Path \"c:\\\\Users\\\\Admin\\\\Desktop\\\\portfolio\\\\src\" -Recurse | Where-Object { -not $_.PSIsContainer } | Select-Object FullName)"
+      "PowerShell(Get-ChildItem -Path \"c:\\\\Users\\\\Admin\\\\Desktop\\\\portfolio\\\\src\" -Recurse | Where-Object { -not $_.PSIsContainer } | Select-Object FullName)",
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\Admin\\\\Desktop\\\\portfolio\" -Recurse -Depth 2)",
+      "Bash(Select-Object FullName)"
     ]
   }
 }

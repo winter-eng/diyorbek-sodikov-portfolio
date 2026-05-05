@@ -49,4 +49,4 @@ To run this portfolio locally:
 - **Location:** Yangiyer / Tashkent, Uzbekistan
 
 
-## **Created with ❤️ by Sodikov Diyorbek.**
+## **Created with ❤️ and a lot of caffeine by Sodikov Diyorbek.**

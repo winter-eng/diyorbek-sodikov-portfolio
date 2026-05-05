@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState } from 'react'
 import { motion, useMotionValue, useSpring } from 'framer-motion'
 import { ArrowRight, MessageCircle, Zap } from 'lucide-react'
+import photoOfMe from '../assets/photoofme1.jpg'
 
 const MagneticButton = ({ children, className, onClick, href }) => {
   const ref = useRef(null)
@@ -271,7 +272,7 @@ export default function Hero() {
               >
                 {/* Placeholder — replace src with actual photo */}
                 <img
-                  src="src/assets/photoofme1.jpg"
+                  src={photoOfMe}
                   alt="Diyorbek Sodikov"
                   className="w-full h-full object-cover"
                   onError={(e) => {
