@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { Sparkles, ArrowRight } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 const ReactIcon = () => (
   <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-8 h-8">
@@ -65,82 +66,73 @@ const GitIcon = () => (
   </svg>
 )
 
-const skills = [
-  { name: 'React', icon: ReactIcon, level: 90, color: '#00f2ff', category: 'Frontend' },
-  { name: 'Vite', icon: ViteIcon, level: 88, color: '#a855f7', category: 'Tooling' },
-  { name: 'Tailwind', icon: TailwindIcon, level: 92, color: '#38bdf8', category: 'Styling' },
-  { name: 'Python', icon: PythonIcon, level: 70, color: '#8b5cf6', category: 'Backend' },
-  { name: 'Go', icon: GoIcon, level: 40, color: '#00ACD7', category: 'Systems' },
-  { name: 'Figma', icon: FigmaIcon, level: 75, color: '#F24E1E', category: 'Design' },
-  { name: 'Git', icon: GitIcon, level: 85, color: '#F05032', category: 'DevOps' },
-]
-
-const mastering = [
-  {
-    title: 'AI-Agent Integration',
-    desc: 'Building autonomous agent pipelines with LLM APIs, function calling, and multi-step reasoning systems.',
-    icon: Sparkles,
-    color: '#00f2ff',
-    progress: 60,
-  },
-  {
-    title: 'Golang Concurrency',
-    desc: 'Mastering goroutines, channels, and sync primitives to build high-throughput backend services.',
-    icon: ArrowRight,
-    color: '#8b5cf6',
-    progress: 40,
-  },
-]
-
-const SkillCard = ({ skill, delay }) => {
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.8 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay }}
-      whileHover={{ y: -10, scale: 1.05 }}
-      className="relative group flex flex-col items-center gap-3 p-5 rounded-2xl cursor-default"
-      style={{
-        background: 'rgba(255,255,255,0.03)',
-        border: '1px solid rgba(255,255,255,0.07)',
-      }}
+const SkillCard = ({ skill, delay }) => (
+  <motion.div
+    initial={{ opacity: 0, scale: 0.8 }}
+    whileInView={{ opacity: 1, scale: 1 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.5, delay }}
+    whileHover={{ y: -10, scale: 1.05 }}
+    className="relative group flex flex-col items-center gap-3 p-5 rounded-2xl cursor-default"
+    style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}
+  >
+    <div
+      className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-400"
+      style={{ background: `radial-gradient(circle at center, ${skill.color}15 0%, transparent 70%)` }}
+    />
+    <div className="relative z-10 w-14 h-14 rounded-2xl flex items-center justify-center"
+      style={{ background: `${skill.color}12`, border: `1px solid ${skill.color}25` }}
     >
-      {/* Hover glow */}
-      <div
-        className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-400"
-        style={{ background: `radial-gradient(circle at center, ${skill.color}15 0%, transparent 70%)` }}
+      <skill.icon />
+    </div>
+    <div className="relative z-10 text-center">
+      <div className="text-sm font-bold text-white">{skill.name}</div>
+      <div className="text-xs text-slate-600 mt-0.5">{skill.category}</div>
+    </div>
+    <div className="relative z-10 w-full h-1 rounded-full bg-[rgba(255,255,255,0.06)] overflow-hidden">
+      <motion.div
+        initial={{ width: 0 }}
+        whileInView={{ width: `${skill.level}%` }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.2, delay: delay + 0.3, ease: 'easeOut' }}
+        className="h-full rounded-full"
+        style={{ background: `linear-gradient(90deg, ${skill.color}, ${skill.color}80)` }}
       />
-
-      {/* Icon */}
-      <div className="relative z-10 w-14 h-14 rounded-2xl flex items-center justify-center"
-        style={{ background: `${skill.color}12`, border: `1px solid ${skill.color}25` }}
-      >
-        <skill.icon />
-      </div>
-
-      <div className="relative z-10 text-center">
-        <div className="text-sm font-bold text-white">{skill.name}</div>
-        <div className="text-xs text-slate-600 mt-0.5">{skill.category}</div>
-      </div>
-
-      {/* Progress bar */}
-      <div className="relative z-10 w-full h-1 rounded-full bg-[rgba(255,255,255,0.06)] overflow-hidden">
-        <motion.div
-          initial={{ width: 0 }}
-          whileInView={{ width: `${skill.level}%` }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.2, delay: delay + 0.3, ease: 'easeOut' }}
-          className="h-full rounded-full"
-          style={{ background: `linear-gradient(90deg, ${skill.color}, ${skill.color}80)` }}
-        />
-      </div>
-      <span className="relative z-10 text-xs font-mono" style={{ color: skill.color }}>{skill.level}%</span>
-    </motion.div>
-  )
-}
+    </div>
+    <span className="relative z-10 text-xs font-mono" style={{ color: skill.color }}>{skill.level}%</span>
+  </motion.div>
+)
 
 export default function TechStack() {
+  const { t } = useTranslation()
+
+  const skills = [
+    { name: 'React',    icon: ReactIcon,   level: 90, color: '#00f2ff', category: t('stack.cat_frontend') },
+    { name: 'Vite',     icon: ViteIcon,    level: 88, color: '#a855f7', category: t('stack.cat_tooling') },
+    { name: 'Tailwind', icon: TailwindIcon,level: 92, color: '#38bdf8', category: t('stack.cat_styling') },
+    { name: 'Python',   icon: PythonIcon,  level: 70, color: '#8b5cf6', category: t('stack.cat_backend') },
+    { name: 'Go',       icon: GoIcon,      level: 40, color: '#00ACD7', category: t('stack.cat_systems') },
+    { name: 'Figma',    icon: FigmaIcon,   level: 75, color: '#F24E1E', category: t('stack.cat_design') },
+    { name: 'Git',      icon: GitIcon,     level: 85, color: '#F05032', category: t('stack.cat_devops') },
+  ]
+
+  const mastering = [
+    {
+      title: t('stack.ai_title'),
+      desc: t('stack.ai_desc'),
+      icon: Sparkles,
+      color: '#00f2ff',
+      progress: 60,
+    },
+    {
+      title: t('stack.go_title'),
+      desc: t('stack.go_desc'),
+      icon: ArrowRight,
+      color: '#8b5cf6',
+      progress: 40,
+    },
+  ]
+
   return (
     <section id="stack" className="py-24 px-6 lg:px-12 max-w-7xl mx-auto">
       <motion.div
@@ -151,17 +143,14 @@ export default function TechStack() {
         className="mb-16 text-center"
       >
         <span className="text-xs font-mono tracking-[0.3em] uppercase text-slate-500 block mb-4">
-          Capabilities
+          {t('stack.eyebrow')}
         </span>
         <h2 className="text-4xl lg:text-5xl font-black text-white mb-4">
-          Tech <span className="gradient-text">Arsenal</span>
+          {t('stack.title_plain')} <span className="gradient-text">{t('stack.title_accent')}</span>
         </h2>
-        <p className="text-slate-400 max-w-xl mx-auto text-base">
-          Tools I wield daily — and the next-gen tech I'm actively conquering.
-        </p>
+        <p className="text-slate-400 max-w-xl mx-auto text-base">{t('stack.description')}</p>
       </motion.div>
 
-      {/* Skills grid */}
       <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-7 gap-3 mb-16">
         {skills.map((skill, i) => (
           <SkillCard key={skill.name} skill={skill} delay={i * 0.07} />
@@ -175,13 +164,8 @@ export default function TechStack() {
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
         className="relative rounded-3xl p-8 lg:p-10 overflow-hidden"
-        style={{
-          background: 'rgba(15,23,42,0.6)',
-          border: '1px solid rgba(255,255,255,0.07)',
-          backdropFilter: 'blur(20px)',
-        }}
+        style={{ background: 'rgba(15,23,42,0.6)', border: '1px solid rgba(255,255,255,0.07)', backdropFilter: 'blur(20px)' }}
       >
-        {/* Background decoration */}
         <div className="absolute top-0 right-0 w-80 h-80 rounded-full blur-3xl pointer-events-none"
           style={{ background: 'radial-gradient(circle, rgba(139,92,246,0.08), transparent)' }}
         />
@@ -192,8 +176,8 @@ export default function TechStack() {
               <Sparkles size={16} className="text-[#00f2ff]" />
             </div>
             <div>
-              <h3 className="text-lg font-black text-white">Currently Mastering</h3>
-              <p className="text-xs text-slate-500 font-mono">Active learning tracks · 2025</p>
+              <h3 className="text-lg font-black text-white">{t('stack.mastering_title')}</h3>
+              <p className="text-xs text-slate-500 font-mono">{t('stack.mastering_sub')}</p>
             </div>
           </div>
 

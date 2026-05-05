@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState } from 'react'
 import { motion, useMotionValue, useSpring } from 'framer-motion'
 import { ArrowRight, MessageCircle, Zap } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import photoOfMe from '../assets/photoofme1.jpg'
 
 const MagneticButton = ({ children, className, onClick, href }) => {
@@ -46,7 +47,8 @@ const TypewriterText = ({ phrases }) => {
   const [deleting, setDeleting] = useState(false)
 
   useEffect(() => {
-    const target = phrases[currentPhrase]
+    if (!phrases?.length) return
+    const target = phrases[currentPhrase % phrases.length]
     let timeout
 
     if (!deleting && displayed.length < target.length) {
@@ -74,43 +76,25 @@ const TypewriterText = ({ phrases }) => {
 const FloatingOrb = ({ size, color, top, left, delay }) => (
   <motion.div
     className="absolute rounded-full blur-3xl pointer-events-none"
-    style={{
-      width: size,
-      height: size,
-      background: color,
-      top,
-      left,
-      opacity: 0.15,
-    }}
-    animate={{
-      y: [0, -30, 0],
-      scale: [1, 1.1, 1],
-    }}
-    transition={{
-      duration: 7,
-      delay,
-      repeat: Infinity,
-      ease: 'easeInOut',
-    }}
+    style={{ width: size, height: size, background: color, top, left, opacity: 0.15 }}
+    animate={{ y: [0, -30, 0], scale: [1, 1.1, 1] }}
+    transition={{ duration: 7, delay, repeat: Infinity, ease: 'easeInOut' }}
   />
 )
 
 export default function Hero() {
-  const scrollToProjects = () => {
-    document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })
-  }
-  const scrollToContact = () => {
-    document.getElementById('footer')?.scrollIntoView({ behavior: 'smooth' })
-  }
+  const { t } = useTranslation()
+  const phrases = t('hero.typewriter', { returnObjects: true })
+
+  const scrollToProjects = () => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })
+  const scrollToContact = () => document.getElementById('footer')?.scrollIntoView({ behavior: 'smooth' })
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden mesh-bg">
-      {/* Floating orbs */}
       <FloatingOrb size={600} color="#8b5cf6" top="10%" left="-10%" delay={0} />
       <FloatingOrb size={400} color="#00f2ff" top="60%" left="70%" delay={2} />
       <FloatingOrb size={300} color="#8b5cf6" top="80%" left="10%" delay={4} />
 
-      {/* Grid overlay */}
       <div
         className="absolute inset-0 pointer-events-none opacity-[0.03]"
         style={{
@@ -131,7 +115,7 @@ export default function Hero() {
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-glass mb-8 border border-[rgba(0,242,255,0.2)]"
             >
               <span className="w-2 h-2 rounded-full bg-[#00f2ff] animate-pulse-slow shadow-[0_0_8px_#00f2ff]" />
-              <span className="text-sm font-mono text-[#00f2ff] tracking-wider">AVAILABLE FOR PROJECTS</span>
+              <span className="text-sm font-mono text-[#00f2ff] tracking-wider">{t('hero.badge')}</span>
               <Zap size={14} className="text-[#00f2ff]" />
             </motion.div>
 
@@ -142,28 +126,22 @@ export default function Hero() {
               transition={{ duration: 0.7, delay: 0.1 }}
               className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black leading-[1.05] tracking-tight mb-6"
             >
-              Engineering{' '}
-              <span className="gradient-text">Digital</span>
+              {t('hero.h1_word1')}{' '}
+              <span className="gradient-text">{t('hero.h1_word2')}</span>
               <br />
-              Ecosystems &{' '}
+              {t('hero.h1_word3')}{' '}
               <br className="hidden sm:block" />
-              <span className="gradient-text">Winning</span> Startups.
+              <span className="gradient-text">{t('hero.h1_word4')}</span> {t('hero.h1_word5')}
             </motion.h1>
 
-            {/* Typewriter sub */}
+            {/* Typewriter */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.25 }}
               className="text-lg sm:text-xl text-slate-400 mb-4 font-medium"
             >
-              <TypewriterText phrases={[
-                'React & Vite Specialist',
-                'IT Park Resident',
-                'Startup Founder',
-                'Hackathon-Ideathon Champion',
-                'AI Explorer',
-              ]} />
+              <TypewriterText phrases={Array.isArray(phrases) ? phrases : []} />
             </motion.div>
 
             <motion.p
@@ -172,8 +150,7 @@ export default function Hero() {
               transition={{ duration: 0.6, delay: 0.35 }}
               className="text-slate-400 text-base sm:text-lg leading-relaxed max-w-xl mb-10"
             >
-              <span className="text-white font-semibold">Sodikov Diyorbek.</span> 16-year-old Frontend Dev, IT Park Resident, and Startup Founder.
-              Specialized in React, Vite, and scaling ideas into investments.
+              <span className="text-white font-semibold">{t('hero.name')}</span> {t('hero.description')}
             </motion.p>
 
             {/* CTA Buttons */}
@@ -186,16 +163,10 @@ export default function Hero() {
               <MagneticButton
                 onClick={scrollToProjects}
                 className="group relative flex items-center gap-3 px-8 py-4 rounded-2xl font-semibold text-base transition-all duration-300 cursor-pointer overflow-hidden"
-                style={{}}
               >
-                <span
-                  className="absolute inset-0 rounded-2xl"
-                  style={{ background: 'linear-gradient(135deg, #00f2ff, #8b5cf6)' }}
-                />
-                <span className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  style={{ background: 'linear-gradient(135deg, #8b5cf6, #00f2ff)' }}
-                />
-                <span className="relative z-10 text-black font-bold">Explore My Lab</span>
+                <span className="absolute inset-0 rounded-2xl" style={{ background: 'linear-gradient(135deg, #00f2ff, #8b5cf6)' }} />
+                <span className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: 'linear-gradient(135deg, #8b5cf6, #00f2ff)' }} />
+                <span className="relative z-10 text-black font-bold">{t('hero.cta_projects')}</span>
                 <ArrowRight className="relative z-10 text-black group-hover:translate-x-1 transition-transform duration-200" size={18} />
               </MagneticButton>
 
@@ -204,11 +175,11 @@ export default function Hero() {
                 className="flex items-center gap-3 px-8 py-4 rounded-2xl font-semibold text-base bg-glass border border-[rgba(255,255,255,0.1)] hover:border-[rgba(0,242,255,0.4)] transition-all duration-300 cursor-pointer"
               >
                 <MessageCircle size={18} className="text-[#00f2ff]" />
-                <span>Contact</span>
+                <span>{t('hero.cta_contact')}</span>
               </MagneticButton>
             </motion.div>
 
-            {/* Mini stats row */}
+            {/* Mini stats */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -216,13 +187,13 @@ export default function Hero() {
               className="flex gap-8 mt-12 justify-center lg:justify-start"
             >
               {[
-                { val: '700+', label: 'Days coded' },
-                { val: '3', label: 'National wins' },
-                { val: '200M', label: 'UZS raised' },
-              ].map(({ val, label }) => (
-                <div key={label} className="text-center lg:text-left">
+                { val: '700+', labelKey: 'hero.stat_days' },
+                { val: '3', labelKey: 'hero.stat_wins' },
+                { val: '200M', labelKey: 'hero.stat_raised' },
+              ].map(({ val, labelKey }) => (
+                <div key={labelKey} className="text-center lg:text-left">
                   <div className="text-2xl font-black gradient-text">{val}</div>
-                  <div className="text-xs text-slate-500 font-mono uppercase tracking-wider mt-0.5">{label}</div>
+                  <div className="text-xs text-slate-500 font-mono uppercase tracking-wider mt-0.5">{t(labelKey)}</div>
                 </div>
               ))}
             </motion.div>
@@ -267,35 +238,29 @@ export default function Hero() {
                 border: '2px solid rgba(0,242,255,0.3)',
               }}
             >
-              <div className="w-full h-full flex items-center justify-center"
-                style={{ background: 'linear-gradient(135deg, rgba(15,23,42,0.9), rgba(30,41,59,0.8))' }}
+              <img
+                src={photoOfMe}
+                alt="Diyorbek Sodikov"
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  e.target.style.display = 'none'
+                  e.target.nextSibling.style.display = 'flex'
+                }}
+              />
+              <div
+                className="hidden w-full h-full flex-col items-center justify-center gap-3"
+                style={{ background: 'linear-gradient(135deg, #0f172a, #1e293b)' }}
               >
-                {/* Placeholder — replace src with actual photo */}
-                <img
-                  src={photoOfMe}
-                  alt="Diyorbek Sodikov"
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.target.style.display = 'none'
-                    e.target.nextSibling.style.display = 'flex'
-                  }}
-                />
                 <div
-                  className="hidden w-full h-full flex-col items-center justify-center gap-3"
-                  style={{ background: 'linear-gradient(135deg, #0f172a, #1e293b)' }}
+                  className="w-20 h-20 rounded-full flex items-center justify-center text-4xl font-black"
+                  style={{ background: 'linear-gradient(135deg, #00f2ff, #8b5cf6)' }}
                 >
-                  <div
-                    className="w-20 h-20 rounded-full flex items-center justify-center text-4xl font-black"
-                    style={{ background: 'linear-gradient(135deg, #00f2ff, #8b5cf6)' }}
-                  >
-                    <span style={{ color: '#000' }}>DS</span>
-                  </div>
-                  <span className="text-slate-400 text-sm font-mono">Add photo.jpg</span>
+                  <span style={{ color: '#000' }}>DS</span>
                 </div>
               </div>
             </div>
 
-            {/* Floating badges around photo */}
+            {/* Floating badges */}
             <motion.div
               animate={{ y: [0, -8, 0] }}
               transition={{ duration: 3, repeat: Infinity, delay: 0 }}
@@ -327,7 +292,7 @@ export default function Hero() {
         transition={{ delay: 1.5 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
       >
-        <span className="text-xs text-slate-600 font-mono tracking-widest uppercase">Scroll</span>
+        <span className="text-xs text-slate-600 font-mono tracking-widest uppercase">{t('hero.scroll')}</span>
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ duration: 1.5, repeat: Infinity }}

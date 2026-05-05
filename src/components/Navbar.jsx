@@ -1,17 +1,20 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
-
-const navLinks = [
-  { label: 'Lab', href: '#projects' },
-  { label: 'Stack', href: '#stack' },
-  { label: 'Experience', href: '#experience' },
-  { label: 'Contact', href: '#footer' },
-]
+import { useTranslation } from 'react-i18next'
+import LanguageSwitcher from './LanguageSwitcher'
 
 export default function Navbar() {
+  const { t } = useTranslation()
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+
+  const navLinks = [
+    { label: t('nav.lab'), href: '#projects' },
+    { label: t('nav.stack'), href: '#stack' },
+    { label: t('nav.experience'), href: '#experience' },
+    { label: t('nav.contact'), href: '#footer' },
+  ]
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
@@ -69,8 +72,10 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* CTA + mobile toggle */}
+          {/* Right side: lang switcher + CTA + mobile toggle */}
           <div className="flex items-center gap-3">
+            <LanguageSwitcher />
+
             <motion.button
               onClick={() => handleNav('#footer')}
               whileHover={{ scale: 1.04 }}
@@ -78,7 +83,7 @@ export default function Navbar() {
               className="hidden md:flex items-center gap-2 px-5 py-2 rounded-xl text-sm font-semibold text-black cursor-pointer"
               style={{ background: 'linear-gradient(135deg, #00f2ff, #8b5cf6)' }}
             >
-              Hire Me
+              {t('nav.hireMe')}
             </motion.button>
 
             <button
@@ -121,7 +126,7 @@ export default function Navbar() {
                 className="w-full py-3 rounded-xl text-sm font-semibold text-black cursor-pointer"
                 style={{ background: 'linear-gradient(135deg, #00f2ff, #8b5cf6)' }}
               >
-                Hire Me
+                {t('nav.hireMe')}
               </button>
             </div>
           </motion.div>

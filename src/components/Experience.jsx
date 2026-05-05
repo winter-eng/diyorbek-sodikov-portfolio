@@ -1,35 +1,9 @@
 import { motion } from 'framer-motion'
 import { GraduationCap, Brain, Quote, Star } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
-const testimonials = [
-  {
-    text: 'Diyorbek is the frontend engine. He turns wireframes into reality at hackathon speed.',
-    author: 'Zakharyan V.',
-    role: 'Backend Partner · NUKTA',
-    avatar: 'ZV',
-    color: 'cyan',
-    stars: 5,
-  },
-  {
-    text: 'The perfect mix of technical skill and "nice guy" vibe. Great leader who keeps the team energized under pressure.',
-    author: 'Nosirov T.',
-    role: 'Product Designer · Smart-Sciences',
-    avatar: 'NT',
-    color: 'violet',
-    stars: 5,
-  },
-  {
-    text: 'His obsession with realistic animations and UX is what wins us prizes. Nobody sweats the details like Diyorbek.',
-    author: 'Buranov A.',
-    role: 'Full-Stack · SmartStorage',
-    avatar: 'BA',
-    color: 'cyan',
-    stars: 5,
-  },
-]
-
-const TestimonialCard = ({ testimonial, delay }) => {
-  const c = testimonial.color === 'cyan'
+const TestimonialCard = ({ text, author, avatar, role, color, stars, delay }) => {
+  const c = color === 'cyan'
     ? { accent: '#00f2ff', bg: 'rgba(0,242,255,0.05)', border: 'rgba(0,242,255,0.15)' }
     : { accent: '#8b5cf6', bg: 'rgba(139,92,246,0.05)', border: 'rgba(139,92,246,0.15)' }
 
@@ -43,37 +17,30 @@ const TestimonialCard = ({ testimonial, delay }) => {
       className="relative group rounded-3xl p-7 flex flex-col gap-5 overflow-hidden"
       style={{ background: c.bg, border: `1px solid ${c.border}`, backdropFilter: 'blur(20px)' }}
     >
-      {/* Hover glow */}
       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"
         style={{ background: `radial-gradient(circle at 20% 20%, ${c.bg} 0%, transparent 70%)` }}
       />
-
-      {/* Quote icon */}
       <div className="relative z-10 flex justify-between items-start">
         <Quote size={28} style={{ color: c.accent, opacity: 0.5 }} />
         <div className="flex gap-0.5">
-          {Array.from({ length: testimonial.stars }).map((_, i) => (
+          {Array.from({ length: stars }).map((_, i) => (
             <Star key={i} size={12} fill={c.accent} style={{ color: c.accent }} />
           ))}
         </div>
       </div>
-
-      {/* Text */}
       <p className="relative z-10 text-slate-300 text-sm leading-relaxed font-medium italic">
-        "{testimonial.text}"
+        "{text}"
       </p>
-
-      {/* Author */}
       <div className="relative z-10 flex items-center gap-3 pt-3 border-t border-[rgba(255,255,255,0.06)]">
         <div
           className="w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
           style={{ background: `linear-gradient(135deg, ${c.accent}30, ${c.accent}15)`, color: c.accent, border: `1px solid ${c.border}` }}
         >
-          {testimonial.avatar}
+          {avatar}
         </div>
         <div>
-          <div className="text-sm font-semibold text-white">{testimonial.author}</div>
-          <div className="text-xs text-slate-500 mt-0.5">{testimonial.role}</div>
+          <div className="text-sm font-semibold text-white">{author}</div>
+          <div className="text-xs text-slate-500 mt-0.5">{role}</div>
         </div>
       </div>
     </motion.div>
@@ -88,7 +55,6 @@ const TimelineItem = ({ item, delay }) => (
     transition={{ duration: 0.6, delay }}
     className="relative flex gap-5 group"
   >
-    {/* Line & dot */}
     <div className="flex flex-col items-center flex-shrink-0">
       <div
         className="w-10 h-10 rounded-2xl flex items-center justify-center z-10"
@@ -103,8 +69,6 @@ const TimelineItem = ({ item, delay }) => (
         <div className="w-px flex-1 mt-2" style={{ background: 'linear-gradient(to bottom, rgba(255,255,255,0.08), transparent)' }} />
       )}
     </div>
-
-    {/* Content */}
     <div className="pb-8">
       <div className="flex items-center gap-3 flex-wrap mb-2">
         <span className="text-xs font-mono text-slate-500 tracking-wider">{item.date}</span>
@@ -126,38 +90,45 @@ const TimelineItem = ({ item, delay }) => (
   </motion.div>
 )
 
-const timeline = [
-  {
-    icon: GraduationCap,
-    date: '2023 – Present',
-    title: 'IT Step Academy',
-    desc: '2-year intensive program covering full-stack development, algorithms, and software architecture. Top of class in web technologies.',
-    badge: 'Active',
-    accent: 'cyan',
-  },
-  {
-    icon: Brain,
-    date: '2024 – Present',
-    title: 'Self-Taught Programm Explorer',
-    desc: 'Independently mastering LLM integration, prompt engineering, and AI-agent orchestration — applying concepts directly to product features.',
-    badge: 'Ongoing',
-    accent: 'violet',
-  },
-  {
-    icon: GraduationCap,
-    date: '2025',
-    title: 'IT Park Residency',
-    desc: 'Accepted as a resident of IT Park Uzbekistan — accessing startup infrastructure, mentorship network, and investor connections.',
-    badge: 'Resident ✓',
-    accent: 'cyan',
-    last: true,
-  },
-]
-
 export default function Experience() {
+  const { t } = useTranslation()
+
+  const timeline = [
+    {
+      icon: GraduationCap,
+      date: t('experience.step_date'),
+      title: t('experience.step_title'),
+      desc: t('experience.step_desc'),
+      badge: t('experience.step_badge'),
+      accent: 'cyan',
+    },
+    {
+      icon: Brain,
+      date: t('experience.self_date'),
+      title: t('experience.self_title'),
+      desc: t('experience.self_desc'),
+      badge: t('experience.self_badge'),
+      accent: 'violet',
+    },
+    {
+      icon: GraduationCap,
+      date: t('experience.itpark_date'),
+      title: t('experience.itpark_title'),
+      desc: t('experience.itpark_desc'),
+      badge: t('experience.itpark_badge'),
+      accent: 'cyan',
+      last: true,
+    },
+  ]
+
+  const testimonials = [
+    { text: t('experience.t1_text'), author: 'Zakharyan V.', role: t('experience.t1_role'), avatar: 'ZV', color: 'cyan',   stars: 5 },
+    { text: t('experience.t2_text'), author: 'Nosirov T.',   role: t('experience.t2_role'), avatar: 'NT', color: 'violet', stars: 5 },
+    { text: t('experience.t3_text'), author: 'Buranov A.',   role: t('experience.t3_role'), avatar: 'BA', color: 'cyan',   stars: 5 },
+  ]
+
   return (
     <section id="experience" className="py-24 px-6 lg:px-12 max-w-7xl mx-auto">
-      {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -166,16 +137,15 @@ export default function Experience() {
         className="mb-16 text-center"
       >
         <span className="text-xs font-mono tracking-[0.3em] uppercase text-slate-500 block mb-4">
-          Background & Crew
+          {t('experience.eyebrow')}
         </span>
         <h2 className="text-4xl lg:text-5xl font-black text-white mb-4">
-          Experience &{' '}
-          <span className="gradient-text">The Team</span>
+          {t('experience.title_plain')}{' '}
+          <span className="gradient-text">{t('experience.title_accent')}</span>
         </h2>
       </motion.div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-        {/* Timeline */}
         <div>
           <motion.h3
             initial={{ opacity: 0 }}
@@ -183,7 +153,7 @@ export default function Experience() {
             viewport={{ once: true }}
             className="text-sm font-mono text-slate-500 uppercase tracking-widest mb-8"
           >
-            Education & Journey
+            {t('experience.timeline_header')}
           </motion.h3>
           <div>
             {timeline.map((item, i) => (
@@ -192,7 +162,6 @@ export default function Experience() {
           </div>
         </div>
 
-        {/* Testimonials */}
         <div>
           <motion.h3
             initial={{ opacity: 0 }}
@@ -200,11 +169,11 @@ export default function Experience() {
             viewport={{ once: true }}
             className="text-sm font-mono text-slate-500 uppercase tracking-widest mb-8"
           >
-            What the Crew Says
+            {t('experience.testimonials_header')}
           </motion.h3>
           <div className="space-y-4">
-            {testimonials.map((t, i) => (
-              <TestimonialCard key={t.author} testimonial={t} delay={i * 0.15} />
+            {testimonials.map((testimonial, i) => (
+              <TestimonialCard key={testimonial.author} {...testimonial} delay={i * 0.15} />
             ))}
           </div>
         </div>

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { Send, Linkedin, Github, Mail, ArrowUpRight, Heart } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 const TelegramIcon = ({ size = 20 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
@@ -8,46 +9,14 @@ const TelegramIcon = ({ size = 20 }) => (
 )
 
 const socials = [
-  {
-    name: 'Telegram',
-    handle: '@autistiqz',
-    href: 'https://t.me/autistiqz',
-    icon: TelegramIcon,
-    color: '#00f2ff',
-    available: true,
-  },
-  {
-    name: 'GitHub',
-    handle: '@winter-eng',
-    href: 'https://github.com/winter-eng',
-    icon: Github,
-    color: '#8b5cf6',
-    available: true,
-  },
-  {
-    name: 'LinkedIn',
-    handle: '@diyorbek-sodikov',
-    href: 'https://www.linkedin.com/in/diyorbek-sodikov-99a2ab408',
-    icon: Linkedin,
-    color: '#00f2ff',
-    available: true,
-  },
-  {
-    name: 'Email',
-    handle: 'curs3dabyss@gmail.com',
-    href: 'mailto:curs3dabyss@gmail.com',
-    icon: Mail,
-    color: '#8b5cf6',
-    available: true,
-  },
+  { name: 'Telegram', handle: '@autistiqz',          href: 'https://t.me/autistiqz',                                   icon: TelegramIcon, color: '#00f2ff' },
+  { name: 'GitHub',   handle: '@winter-eng',          href: 'https://github.com/winter-eng',                            icon: Github,       color: '#8b5cf6' },
+  { name: 'LinkedIn', handle: '@diyorbek-sodikov',    href: 'https://www.linkedin.com/in/diyorbek-sodikov-99a2ab408',   icon: Linkedin,     color: '#00f2ff' },
+  { name: 'Email',    handle: 'curs3dabyss@gmail.com',href: 'mailto:curs3dabyss@gmail.com',                             icon: Mail,         color: '#8b5cf6' },
 ]
 
 const SocialCard = ({ social, delay }) => {
-  const Tag = social.available ? 'a' : 'div'
-  const props = social.available
-    ? { href: social.href, target: '_blank', rel: 'noopener noreferrer' }
-    : {}
-
+  const Tag = 'a'
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -57,16 +26,11 @@ const SocialCard = ({ social, delay }) => {
       whileHover={{ y: -8 }}
     >
       <Tag
-        {...props}
-        className={`flex items-center gap-4 p-5 rounded-2xl transition-all duration-300 group ${
-          social.available
-            ? 'cursor-pointer hover:border-opacity-50'
-            : 'cursor-default opacity-50'
-        }`}
-        style={{
-          background: 'rgba(255,255,255,0.03)',
-          border: `1px solid ${social.color}20`,
-        }}
+        href={social.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-4 p-5 rounded-2xl transition-all duration-300 group cursor-pointer hover:border-opacity-50"
+        style={{ background: 'rgba(255,255,255,0.03)', border: `1px solid ${social.color}20` }}
       >
         <div
           className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110"
@@ -78,18 +42,17 @@ const SocialCard = ({ social, delay }) => {
           <div className="text-sm font-semibold text-white">{social.name}</div>
           <div className="text-xs text-slate-500 font-mono mt-0.5 truncate">{social.handle}</div>
         </div>
-        {social.available && (
-          <ArrowUpRight size={16} className="text-slate-600 group-hover:text-white transition-colors duration-200 flex-shrink-0" />
-        )}
+        <ArrowUpRight size={16} className="text-slate-600 group-hover:text-white transition-colors duration-200 flex-shrink-0" />
       </Tag>
     </motion.div>
   )
 }
 
 export default function Footer() {
+  const { t } = useTranslation()
+
   return (
     <footer id="footer" className="py-24 px-6 lg:px-12 relative overflow-hidden">
-      {/* Top mesh */}
       <div className="absolute top-0 left-1/4 w-96 h-96 rounded-full blur-3xl pointer-events-none"
         style={{ background: 'radial-gradient(circle, rgba(0,242,255,0.05), transparent)' }}
       />
@@ -110,7 +73,6 @@ export default function Footer() {
             border: '1px solid rgba(255,255,255,0.08)',
           }}
         >
-          {/* Grid lines */}
           <div
             className="absolute inset-0 rounded-3xl pointer-events-none opacity-[0.04]"
             style={{
@@ -118,7 +80,6 @@ export default function Footer() {
               backgroundSize: '40px 40px',
             }}
           />
-
           <div className="relative z-10">
             <motion.div
               animate={{ y: [0, -6, 0] }}
@@ -126,17 +87,16 @@ export default function Footer() {
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[rgba(0,242,255,0.08)] border border-[rgba(0,242,255,0.2)] mb-8"
             >
               <span className="w-2 h-2 rounded-full bg-[#00f2ff] animate-pulse" />
-              <span className="text-xs font-mono text-[#00f2ff] tracking-wider">OPEN TO COLLABORATION</span>
+              <span className="text-xs font-mono text-[#00f2ff] tracking-wider">{t('footer.open_badge')}</span>
             </motion.div>
 
             <h2 className="text-4xl lg:text-6xl font-black text-white mb-4 leading-tight">
-              Have an idea?
+              {t('footer.cta_title')}
               <br />
-              <span className="gradient-text">Let's build it.</span>
+              <span className="gradient-text">{t('footer.cta_accent')}</span>
             </h2>
             <p className="text-slate-400 text-lg mb-10 max-w-xl mx-auto leading-relaxed">
-              Whether it's a startup, a hackathon, or an ambitious side project —
-              I'm always looking for the next big problem to solve.
+              {t('footer.cta_desc')}
             </p>
 
             <motion.a
@@ -149,7 +109,7 @@ export default function Footer() {
               style={{ background: 'linear-gradient(135deg, #00f2ff, #8b5cf6)' }}
             >
               <Send size={20} />
-              Start a conversation
+              {t('footer.cta_btn')}
             </motion.a>
           </div>
         </motion.div>
@@ -178,13 +138,13 @@ export default function Footer() {
             </div>
             <span className="text-sm font-semibold text-slate-300">Diyorbek Sodikov</span>
             <span className="text-slate-700">·</span>
-            <span className="text-xs font-mono text-slate-600">IT Park Resident</span>
+            <span className="text-xs font-mono text-slate-600">{t('footer.itpark')}</span>
           </div>
 
           <div className="flex items-center gap-2 text-xs text-slate-600">
-            <span>Built with</span>
+            <span>{t('footer.built_with')}</span>
             <Heart size={12} className="text-[#8b5cf6]" fill="#8b5cf6" />
-            <span>React + Framer Motion</span>
+            <span>{t('footer.built_stack')}</span>
             <span className="text-slate-700">·</span>
             <span>© {new Date().getFullYear()}</span>
           </div>

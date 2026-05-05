@@ -1,18 +1,19 @@
 import { motion } from 'framer-motion'
-import { ExternalLink, Github, Globe, Plus, Award, Clock, Shield } from 'lucide-react'
+import { ExternalLink, Github, Globe, Plus, Award, Layers } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import { BookOpen, Store, Lock } from 'lucide-react'
 import smartSciencesLogo from '../assets/Smart-sciences logo.png'
 import nuktaLogo from '../assets/Nukta logo.png'
 import smartStorageLogo from '../assets/SmartStorage logo.png'
 
 const Badge = ({ label, type = 'default' }) => {
   const styles = {
-    gov: 'bg-[rgba(0,242,255,0.1)] border-[rgba(0,242,255,0.3)] text-[#00f2ff]',
-    winner: 'bg-[rgba(250,204,21,0.1)] border-[rgba(250,204,21,0.3)] text-yellow-400',
-    hackathon: 'bg-[rgba(139,92,246,0.1)] border-[rgba(139,92,246,0.3)] text-[#8b5cf6]',
-    stealth: 'bg-[rgba(100,116,139,0.1)] border-[rgba(100,116,139,0.3)] text-slate-400',
-    default: 'bg-[rgba(255,255,255,0.05)] border-[rgba(255,255,255,0.1)] text-slate-300',
+    gov:      'bg-[rgba(0,242,255,0.1)] border-[rgba(0,242,255,0.3)] text-[#00f2ff]',
+    winner:   'bg-[rgba(250,204,21,0.1)] border-[rgba(250,204,21,0.3)] text-yellow-400',
+    hackathon:'bg-[rgba(139,92,246,0.1)] border-[rgba(139,92,246,0.3)] text-[#8b5cf6]',
+    stealth:  'bg-[rgba(100,116,139,0.1)] border-[rgba(100,116,139,0.3)] text-slate-400',
+    default:  'bg-[rgba(255,255,255,0.05)] border-[rgba(255,255,255,0.1)] text-slate-300',
   }
-
   return (
     <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold border ${styles[type]}`}>
       {label}
@@ -45,26 +46,21 @@ const ProjectCard = ({ project, className = '', style = {}, delay = 0 }) => {
       whileHover={{ y: -10 }}
       className={`relative group rounded-3xl p-6 lg:p-8 overflow-hidden flex flex-col justify-between cursor-default ${className}`}
       style={{
-        background: `rgba(15, 23, 42, 0.8)`,
+        background: 'rgba(15, 23, 42, 0.8)',
         border: `1px solid ${accentAlpha}0.15)`,
-        boxShadow: `0 8px 32px rgba(0,0,0,0.4)`,
+        boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
         backdropFilter: 'blur(20px)',
         ...style,
       }}
     >
-      {/* Hover glow */}
       <div
         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
         style={{ background: `radial-gradient(circle at 30% 30%, ${accentAlpha}0.07) 0%, transparent 60%)` }}
       />
-
-      {/* Top accent line */}
       <div
         className="absolute top-0 left-8 right-8 h-px"
         style={{ background: `linear-gradient(90deg, transparent, ${accentColor}, transparent)` }}
       />
-
-      {/* Corner number */}
       <div
         className="absolute top-6 right-6 text-7xl font-black leading-none pointer-events-none select-none"
         style={{ color: `${accentAlpha}0.06)` }}
@@ -100,10 +96,8 @@ const ProjectCard = ({ project, className = '', style = {}, delay = 0 }) => {
           <p className="text-sm font-medium mt-0.5" style={{ color: accentColor }}>{project.tagline}</p>
         </div>
 
-        {/* Description */}
         <p className="text-slate-400 text-sm leading-relaxed flex-1">{project.description}</p>
 
-        {/* Achievements */}
         {project.achievements && (
           <ul className="space-y-1.5">
             {project.achievements.map((a) => (
@@ -115,7 +109,6 @@ const ProjectCard = ({ project, className = '', style = {}, delay = 0 }) => {
           </ul>
         )}
 
-        {/* Tech tags */}
         <div className="flex flex-wrap gap-2">
           {project.tech.map((t) => (
             <span
@@ -128,7 +121,6 @@ const ProjectCard = ({ project, className = '', style = {}, delay = 0 }) => {
           ))}
         </div>
 
-        {/* Links */}
         {project.links && project.links.length > 0 && (
           <div className="flex gap-2 flex-wrap pt-1 border-t border-[rgba(255,255,255,0.06)]">
             {project.links.map((link) => (
@@ -141,7 +133,7 @@ const ProjectCard = ({ project, className = '', style = {}, delay = 0 }) => {
   )
 }
 
-const FutureCard = ({ delay }) => (
+const FutureCard = ({ delay, title, sub, stealth }) => (
   <motion.div
     initial={{ opacity: 0, y: 40 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -149,16 +141,11 @@ const FutureCard = ({ delay }) => (
     transition={{ duration: 0.6, delay }}
     whileHover={{ y: -10 }}
     className="relative group rounded-3xl p-8 overflow-hidden flex flex-col items-center justify-center gap-5 min-h-[280px] cursor-default"
-    style={{
-      background: 'rgba(15,23,42,0.5)',
-      border: '1px dashed rgba(255,255,255,0.1)',
-      backdropFilter: 'blur(20px)',
-    }}
+    style={{ background: 'rgba(15,23,42,0.5)', border: '1px dashed rgba(255,255,255,0.1)', backdropFilter: 'blur(20px)' }}
   >
     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
       style={{ background: 'radial-gradient(circle at center, rgba(139,92,246,0.06) 0%, transparent 70%)' }}
     />
-
     <motion.div
       animate={{ rotate: [0, 180, 360] }}
       transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
@@ -169,7 +156,6 @@ const FutureCard = ({ delay }) => (
         WebkitMask: 'radial-gradient(farthest-side, transparent calc(100% - 2px), #fff calc(100% - 2px))',
       }}
     />
-
     <div className="relative z-10 flex flex-col items-center gap-4 text-center">
       <motion.div
         animate={{ scale: [1, 1.15, 1] }}
@@ -180,110 +166,89 @@ const FutureCard = ({ delay }) => (
         <Plus size={32} className="text-[#8b5cf6]" />
       </motion.div>
       <div>
-        <h3 className="text-xl font-black text-white">Future Lab</h3>
-        <p className="text-slate-500 text-sm mt-1.5 leading-relaxed max-w-[200px]">
-          Next Big Idea in Progress...
-        </p>
+        <h3 className="text-xl font-black text-white">{title}</h3>
+        <p className="text-slate-500 text-sm mt-1.5 leading-relaxed max-w-[200px]">{sub}</p>
       </div>
       <div className="flex items-center gap-2">
         <span className="w-1.5 h-1.5 rounded-full bg-[#8b5cf6] animate-pulse-slow" />
-        <span className="text-xs font-mono text-slate-600 tracking-wider">STEALTH MODE</span>
+        <span className="text-xs font-mono text-slate-600 tracking-wider">{stealth}</span>
       </div>
     </div>
   </motion.div>
 )
 
-import { BookOpen, Store, Lock, Layers } from 'lucide-react'
-
-const projects = [
-  {
-    num: '01',
-    name: 'Smart-Sciences',
-    tagline: 'The Future of STEM',
-    category: 'EdTech Platform',
-    icon: BookOpen,
-    logo: smartSciencesLogo,
-    accent: 'cyan',
-    description:
-      'Gamified education platform for grades 5–8 that transforms complex STEM subjects into interactive quests and challenges, making learning addictive.',
-    achievements: [
-      '1st Place — Yangiyer Startup Contest',
-      '200M UZS Investment Secured',
-      'Featured in National Media',
-      'Pilot Program with 3 Schools',
-    ],
-    badges: [
-      { label: '🏆 1st Place', type: 'winner' },
-      { label: 'Gov Supported', type: 'gov' },
-    ],
-    tech: ['React', 'Vite', 'FastAPI', 'PostgreSQL'],
-    links: [
-      { href: 'https://smartsciences.uz', icon: Globe, label: 'Web' },
-      { href: 'https://github.com/Anub1s-67336/Website', icon: Github, label: 'GitHub' },
-    ],
-  },
-  {
-    num: '02',
-    name: 'NUKTA',
-    tagline: 'Safe & Share',
-    category: 'Marketplace · 24h Build',
-    icon: Store,
-    logo: nuktaLogo,
-    accent: 'violet',
-    description:
-      "Decentralized 'Airbnb for retail' — enabling merchants to share and sublease unused retail space on demand. Built in 24 hours at IDEATHON.",
-    achievements: [
-      '1st Place — IDEATHON Hackathon',
-      '24h MVP Build',
-    ],
-    badges: [
-      { label: '⚡ 24h Build', type: 'hackathon' },
-      { label: '🥇 IDEATHON', type: 'winner' },
-    ],
-    tech: ['React', 'Node.js', 'MongoDB'],
-    links: [
-      { href: 'https://nukta-mvp.vercel.app/', icon: ExternalLink, label: 'Demo' },
-      { href: 'https://github.com/winter-eng/nukta-mvp', icon: Github, label: 'GitHub' },
-    ],
-  },
-  {
-    num: '03',
-    name: 'SmartStorage',
-    tagline: 'Stealth Messenger',
-    category: 'Privacy Tool',
-    icon: Lock,
-    logo: smartStorageLogo,
-    accent: 'cyan',
-    description:
-      'Anonymous school file-sharing ecosystem built with end-to-end privacy principles. Enables secure document exchange without identity exposure.',
-    achievements: [
-      'Top 9 — "Step to Invention" Competition',
-      'Best Innovation Award — Tashkent Tech Week',
-    ],
-    badges: [
-      { label: 'Top 9 National', type: 'winner' },
-      { label: '🔒 Stealth', type: 'stealth' },
-    ],
-    tech: ['React', 'Vite', 'Encryption API'],
-    links: [
-      { href: 'https://insta01.uz', icon: Globe, label: 'Web' },
-    ],
-  },
-]
-
 const containerVariants = {
   hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.12,
-    },
-  },
+  visible: { transition: { staggerChildren: 0.12 } },
 }
 
 export default function ProjectsGrid() {
+  const { t } = useTranslation()
+
+  const projects = [
+    {
+      num: '01',
+      name: 'Smart-Sciences',
+      tagline: t('projects.ss_tagline'),
+      category: t('projects.ss_category'),
+      icon: BookOpen,
+      logo: smartSciencesLogo,
+      accent: 'cyan',
+      description: t('projects.ss_description'),
+      achievements: [t('projects.ss_ach1'), t('projects.ss_ach2'), t('projects.ss_ach3'), t('projects.ss_ach4')],
+      badges: [
+        { label: t('projects.badge_1st'), type: 'winner' },
+        { label: t('projects.badge_gov'), type: 'gov' },
+      ],
+      tech: ['React', 'Vite', 'FastAPI', 'PostgreSQL'],
+      links: [
+        { href: 'https://smartsciences.uz', icon: Globe, label: t('projects.link_web') },
+        { href: 'https://github.com/Anub1s-67336/Website', icon: Github, label: t('projects.link_github') },
+      ],
+    },
+    {
+      num: '02',
+      name: 'NUKTA',
+      tagline: t('projects.nukta_tagline'),
+      category: t('projects.nukta_category'),
+      icon: Store,
+      logo: nuktaLogo,
+      accent: 'violet',
+      description: t('projects.nukta_description'),
+      achievements: [t('projects.nukta_ach1'), t('projects.nukta_ach2')],
+      badges: [
+        { label: t('projects.badge_24h'), type: 'hackathon' },
+        { label: t('projects.badge_ideathon'), type: 'winner' },
+      ],
+      tech: ['React', 'Node.js', 'MongoDB'],
+      links: [
+        { href: 'https://nukta-mvp.vercel.app/', icon: ExternalLink, label: t('projects.link_demo') },
+        { href: 'https://github.com/winter-eng/nukta-mvp', icon: Github, label: t('projects.link_github') },
+      ],
+    },
+    {
+      num: '03',
+      name: 'SmartStorage',
+      tagline: t('projects.storage_tagline'),
+      category: t('projects.storage_category'),
+      icon: Lock,
+      logo: smartStorageLogo,
+      accent: 'cyan',
+      description: t('projects.storage_description'),
+      achievements: [t('projects.storage_ach1'), t('projects.storage_ach2')],
+      badges: [
+        { label: t('projects.badge_top9'), type: 'winner' },
+        { label: t('projects.badge_stealth'), type: 'stealth' },
+      ],
+      tech: ['React', 'Vite', 'Encryption API'],
+      links: [
+        { href: 'https://insta01.uz', icon: Globe, label: t('projects.link_web') },
+      ],
+    },
+  ]
+
   return (
     <section id="projects" className="py-24 px-6 lg:px-12 max-w-7xl mx-auto">
-      {/* Section header */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -292,19 +257,15 @@ export default function ProjectsGrid() {
         className="mb-16 text-center"
       >
         <span className="text-xs font-mono tracking-[0.3em] uppercase text-slate-500 block mb-4">
-          Selected Work
+          {t('projects.eyebrow')}
         </span>
         <h2 className="text-4xl lg:text-5xl font-black text-white mb-4">
-          The{' '}
-          <span className="gradient-text">Lab</span>
+          {t('projects.title_plain')}{' '}
+          <span className="gradient-text">{t('projects.title_accent')}</span>
         </h2>
-        <p className="text-slate-400 max-w-xl mx-auto text-base">
-          Real projects. Real wins. Each one built to solve a problem and compete at the highest level. 
-          This is where the rubber meets the road — and the future takes shape.
-        </p>
+        <p className="text-slate-400 max-w-xl mx-auto text-base">{t('projects.description')}</p>
       </motion.div>
 
-      {/* Bento grid */}
       <motion.div
         variants={containerVariants}
         initial="hidden"
@@ -312,21 +273,19 @@ export default function ProjectsGrid() {
         viewport={{ once: true, margin: '-80px' }}
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
       >
-        {/* Card 1 — large, spans 2 rows on lg */}
         <div className="lg:row-span-2 md:col-span-2 lg:col-span-1">
           <ProjectCard project={projects[0]} delay={0} className="h-full min-h-[400px]" />
         </div>
-
-        {/* Card 2 */}
         <ProjectCard project={projects[1]} delay={0.12} />
-
-        {/* Card 3 */}
         <ProjectCard project={projects[2]} delay={0.24} />
 
-        {/* Future card */}
-        <FutureCard delay={0.36} />
+        <FutureCard
+          delay={0.36}
+          title={t('projects.future_title')}
+          sub={t('projects.future_sub')}
+          stealth={t('projects.future_stealth')}
+        />
 
-        {/* Wide stat card */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -349,9 +308,9 @@ export default function ProjectsGrid() {
             <Layers size={28} className="text-white" />
           </div>
           <div className="relative z-10">
-            <p className="text-xs font-mono tracking-widest text-slate-500 uppercase mb-1">Combined Impact</p>
-            <h3 className="text-2xl font-black text-white">3 Products. 3 Wins. 1 Vision.</h3>
-            <p className="text-sm text-slate-400 mt-1">Building the ecosystem of tomorrow, one MVP at a time.</p>
+            <p className="text-xs font-mono tracking-widest text-slate-500 uppercase mb-1">{t('projects.combined_eyebrow')}</p>
+            <h3 className="text-2xl font-black text-white">{t('projects.combined_title')}</h3>
+            <p className="text-sm text-slate-400 mt-1">{t('projects.combined_sub')}</p>
           </div>
         </motion.div>
       </motion.div>
