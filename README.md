@@ -1,4 +1,4 @@
-# diyorbek-sodikov-portfolio
+
 # ⚡ Sodikov Diyorbek | Frontend Architect & IT Park Resident
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
@@ -28,22 +28,25 @@ To run this portfolio locally:
    git clone [https://github.com/your-username/your-repo-name.git](https://github.com/your-username/your-repo-name.git)
 
 2. **Install dependencies:**
-  ```bash
+   ```bash
    npm install
 
 3. **Run development server:**
-  ```bash
+   ```bash
    npm run dev
 
 ## **🧠 What's Inside?**
 
-**Bento Grid Layout:** Modern UI/UX inspired by Apple & Linear.
-**Fluid Animations:** Powered by framer-motion for a premium feel.
-**Responsive Design:** Flawless experience across all devices.
-**Optimized Performance:** Lightning-fast load times with Vite.
+- **Bento Grid Layout:** Modern UI/UX inspired by Apple & Linear.
+- **Fluid Animations:** Powered by framer-motion for a premium feel.
+- **Responsive Design:** Flawless experience across all devices.
+- **Optimized Performance:** Lightning-fast load times with Vite.
 
 ## **🤝 Connect with Me**
 
-**Telegram:** @autistiqz
-**LinkedIn:** www.linkedin.com/in/diyorbek-sodikov-99a2ab408
-**Location:** Yangiyer / Tashkent, Uzbekistan
+- **Telegram:** @autistiqz
+- **LinkedIn:** www.linkedin.com/in/diyorbek-sodikov-99a2ab408
+- **Location:** Yangiyer / Tashkent, Uzbekistan
+
+
+## **Created with ❤️ by Sodikov Diyorbek.**
